@@ -1,331 +1,155 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anweisungen und Regeln – sklavin666</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geheimer Comic</title>
   <style>
-    body { 
-      font-family: system-ui, -apple-system, sans-serif; 
-      margin: 0; 
-      padding: 0; 
-      min-height: 100vh;
-      color: #e0e0e5;
-      background: #000;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(45deg, transparent 48%, rgba(255,240,220,0.18) 50%, transparent 52%);
-      background-size: 300% 300%;
-      animation: subtle-gloss 12s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    @keyframes subtle-gloss {
-      0%, 100% { background-position: 0% 50%; }
-      50%      { background-position: 100% 50%; }
-    }
-
-    .container { 
-      max-width: 640px; 
-      margin: 40px auto;
-      padding: 32px 24px;
-      background: rgba(22, 22, 26, 0.92);
-      border-radius: 12px;
-      border: 1px solid #2a2a35;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.85);
-      backdrop-filter: blur(4px);
-      position: relative;
-      z-index: 1;
-    }
-
-    h1 { 
-      color: #FFD700;
-      text-align: center; 
-      margin: 0 0 1.8em; 
-      letter-spacing: 3px; 
-      text-transform: uppercase; 
-      font-weight: 900;
-      text-shadow: 0 0 12px rgba(255,215,0,0.5);
-    }
-
-    .disclaimer { 
-      background: rgba(30,30,38,0.8);
-      padding: 40px 20px;
-      border-radius: 10px;
-      margin: 20px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 280px;
-    }
-
-    .title-lines {
-      color: #ffffff;
-      font-size: 1.75rem;
-      font-weight: 800;
-      line-height: 1.65;
-      letter-spacing: 1.2px;
-      text-align: center;
-      margin: 0 auto 2.5em;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .rules {
-      padding: 20px;
-      text-align: center;
-      font-size: 1.05rem;
-      line-height: 1.55;
-    }
-
-    .section-title {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin: 2.8em 0 1.2em;
-      letter-spacing: 1px;
-    }
-
-    .note {
-      font-size: 1.0rem;
-      color: #ffcc66;
-      font-weight: 600;
-      margin: 0.6em 0 1.8em;
-      max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .important {
-      color: #ff6b6b;
-      font-weight: 700;
-      font-size: 1.15rem;
-      margin: 2.5em 0 2em;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 1.2em auto;
-      max-width: 520px;
-      text-align: left;
-    }
-
-    ul li {
-      margin: 0.9em 0;
-      font-size: 1.05rem;
-    }
-
-    .position-desc {
-      font-family: monospace;
-      background: rgba(13,13,18,0.9);
-      padding: 14px 18px;
-      border-radius: 8px;
-      margin: 1.2em auto;
-      border: 1px dashed #444;
-      max-width: 460px;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      text-align: left;
-    }
-
-    .btn { 
-      display: block;
-      background: #00cc66;
-      color: white;
-      border: none;
-      padding: 16px 48px;
-      font-size: 1.25rem;
-      font-weight: 700;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 2.5em auto 1em;
-      transition: all 0.25s ease;
-      letter-spacing: 1.5px;
-      box-shadow: 0 6px 16px rgba(0,204,102,0.4);
-    }
-
-    .btn:hover:not(:disabled) { 
-      background: #00e673;
-      transform: translateY(-3px);
-      box-shadow: 0 14px 28px rgba(0,204,102,0.55);
-    }
-
-    .btn:disabled {
-      background: #555;
-      cursor: not-allowed;
-      opacity: 0.6;
-      box-shadow: none;
-      transform: none;
-    }
-
-    .confirmation {
-      color: #00ff88;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-top: 1em;
-      display: none;
-    }
-
-    .small { 
-      font-size: 0.88rem; 
-      color: #888; 
-      text-align: center; 
-      margin-top: 70px; 
-    }
-
-    .hidden { display: none; }
+    body { margin:0; padding:0; background:#0a0015; color:#ddd; font-family:Arial, sans-serif; overflow:hidden; height:100vh; display:flex; flex-direction:column; }
+    #password-screen { flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; background:linear-gradient(#1a0022,#0a0015); }
+    #comic { display:none; flex:1; position:relative; }
+    .page { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; align-items:center; justify-content:center; background:#000; }
+    .page.active { display:flex; }
+    .page img { max-height:78vh; max-width:100%; object-fit:contain; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
+    .text { margin-top:15px; padding:12px 30px; min-height:60px; width:90%; max-width:800px; background:rgba(30,10,50,0.7); border:1px solid #664499; border-radius:10px; text-align:center; font-size:1.15rem; color:#ffddff; }
+    .nav { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:100; }
+    .nav button { background:rgba(80,40,120,0.8); color:#fff; border:2px solid #bb88ff; width:70px; height:70px; margin:0 15px; border-radius:50%; font-size:28px; cursor:pointer; }
+    .nav button:hover { background:#8844cc; transform:scale(1.1); }
+    .counter { position:fixed; top:15px; right:20px; background:rgba(0,0,0,0.6); padding:8px 18px; border-radius:25px; font-size:1rem; z-index:90; }
+    #survey { display:none; flex-direction:column; align-items:center; justify-content:center; height:100%; background:#0a0015; padding:40px 20px; text-align:center; }
+    .option { margin:15px; padding:18px 50px; background:#2a1a44; border:2px solid #8855cc; border-radius:15px; font-size:1.35rem; cursor:pointer; max-width:520px; transition:0.3s; }
+    .option:hover { background:#3a2a66; transform:scale(1.05); }
+    .status { margin-top:10px; font-size:0.9rem; color:#88ff88; }
   </style>
 </head>
 <body>
 
-<div class="container" id="disclaimerPage">
-
-  <h1>FOTOSHOOTING</h1>
-
-  <div class="disclaimer">
-    <div class="title-lines">
-      ANWEISUNGEN<br>
-      REGELN<br>
-      FÜR<br>
-      SKLAVIN666
-    </div>
-
-    <button class="btn" onclick="acceptDisclaimer()">OPEN</button>
-  </div>
-
+<!-- Passwortschirm -->
+<div id="password-screen">
+  <h1>Geheimer Comic</h1>
+  <p style="margin:30px 0 10px;">Zugangscode eingeben:</p>
+  <input type="password" id="code" placeholder="••••••••" style="padding:14px; font-size:1.5rem; width:260px; text-align:center; background:#110022; border:2px solid #6644aa; color:#ffccff; border-radius:10px;">
+  <br><br>
+  <button onclick="checkPassword()" style="padding:14px 50px; font-size:1.4rem; background:#553388; color:white; border:none; border-radius:12px; cursor:pointer;">Öffnen</button>
 </div>
 
+<div id="comic">
+  <div class="counter" id="counter">Seite 1 / 17</div>
 
-<div class="container hidden" id="rulesPage">
+  <!-- 17 Seiten (Text kannst du später ändern) -->
+  <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ichhabe ein cooles Fotoshooting mit den besten Fetischfotografen der Welt</div></div>
+  <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Ich habe paar anweisungen bekommen</div></div>
+  <div class="page" id="page3"><img src="https://i.imgur.com/EsAxHlU.jpg" alt="3"><div class="text" id="text3">Hier kommt dein Text für Seite 3 hin...</div></div>
+  <div class="page" id="page4"><img src="https://i.imgur.com/AabsfhG.jpg" alt="4"><div class="text" id="text4">Hier kommt dein Text für Seite 4 hin...</div></div>
+  <div class="page" id="page5"><img src="https://i.imgur.com/XzzzwCQ.jpg" alt="5"><div class="text" id="text5">Hier kommt dein Text für Seite 5 hin...</div></div>
+  <div class="page" id="page6"><img src="https://i.imgur.com/OLneuiE.jpg" alt="6"><div class="text" id="text6">Hier kommt dein Text für Seite 6 hin...</div></div>
+  <div class="page" id="page7"><img src="https://i.imgur.com/AW9VKaO.jpg" alt="7"><div class="text" id="text7">Hier kommt dein Text für Seite 7 hin...</div></div>
+  <div class="page" id="page8"><img src="https://i.imgur.com/gyD4jqw.jpg" alt="8"><div class="text" id="text8">Hier kommt dein Text für Seite 8 hin...</div></div>
+  <div class="page" id="page9"><img src="https://i.imgur.com/weRvCqD.jpg" alt="9"><div class="text" id="text9">Hier kommt dein Text für Seite 9 hin...</div></div>
+  <div class="page" id="page10"><img src="https://i.imgur.com/Qag5ufI.jpg" alt="10"><div class="text" id="text10">Hier kommt dein Text für Seite 10 hin...</div></div>
+  <div class="page" id="page11"><img src="https://i.imgur.com/iRs6YEY.jpg" alt="11"><div class="text" id="text11">Hier kommt dein Text für Seite 11 hin...</div></div>
+  <div class="page" id="page12"><img src="https://i.imgur.com/BajKLBb.jpg" alt="12"><div class="text" id="text12">Hier kommt dein Text für Seite 12 hin...</div></div>
+  <div class="page" id="page13"><img src="https://i.imgur.com/71DfG4x.jpg" alt="13"><div class="text" id="text13">Hier kommt dein Text für Seite 13 hin...</div></div>
+  <div class="page" id="page14"><img src="https://i.imgur.com/VRRc4tE.jpg" alt="14"><div class="text" id="text14">Hier kommt dein Text für Seite 14 hin...</div></div>
+  <div class="page" id="page15"><img src="https://i.imgur.com/vWC7QIW.jpg" alt="15"><div class="text" id="text15">Hier kommt dein Text für Seite 15 hin...</div></div>
+  <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Hier kommt dein Text für Seite 16 hin...</div></div>
+  <div class="page" id="page17"><img src="https://i.imgur.com/meUuSDS.jpg" alt="17"><div class="text" id="text17">Hier kommt dein Text für Seite 17 hin...</div></div>
 
-  <div style="text-align: center; margin-bottom: 2.5em;">
-    <h1 style="color: #FFD700; font-size: 2.3rem; letter-spacing: 4px; margin: 0;">VERBINDLICHE REGELN</h1>
+  <!-- Umfrage -->
+  <div id="survey">
+    <h2>Ende des Comics</h2>
+    <p style="margin:20px 0 40px; font-size:1.3rem;">Was sagst du, Sklavin?</p>
+    <div class="option" onclick="submitVote(1)">1. Ja Herr, ich werde alles so tun!!!!</div>
+    <div class="option" onclick="submitVote(2)">2. Danke, schöne Lektüre!</div>
+    <div class="option" onclick="submitVote(3)">3. NEEEEE</div>
+    <div class="status" id="status"></div>
   </div>
 
-  <div class="rules">
-
-    <div class="section-title">ANWEISUNG ZUM BETRETEN DES STUDIOS</div>
-
-    <ul>
-      <li>• KFZ AUF DER STRASSE PARKEN</li>
-      <li>• UNAUFFÄLLIGE ZIVILKLEIDUNG</li>
-      <li>• 6 MAL AN DER STUDIOTÜR KLOPFEN</li>
-      <li>• HÄNDE AUF DEN RÜCKEN</li>
-      <li>• BLICK GESENKT HABEN</li>
-      <li>• BEGRÜSSUNG: "HERR, SKLAVIN 666 IST BEREIT, HERR"</li>
-      <li>• SICH AN VORGESEHENEN PLATZ BRINGEN LASSEN</li>
-      <li>• NACH ANWEISUNG SICH VÖLLIG ENTKLEIDEN</li>
-      <li>• ALLE HABSELIGKEITEN IN DIE KISTE VERSTAUEN</li>
-      <li>• SICH NACKT IN DIE SKLAVINNEN-POSITION HINKNIEN</li>
-      <li>• WARTEN AUF NEUE ANWEISUNG</li>
-    </ul>
-
-    <div class="section-title">ALLGEMEIN GÜLTIGE REGELN</div>
-
-    <ul>
-      <li>• PÜNKTLICH</li>
-      <li>• BLASE ENTLEEREN</li>
-      <li>• VOLLRASIERT Intimbereich vorne + hinten (glatt)</li>
-      <li>• GRÜNDLICH GEWASCHEN, AUCH INNEN (Intimspülung)</li>
-      <li>• MAKE-UP: SMOKEY EYES (stark betont) + makellos</li>
-      <li>• NUR SIEZEN nach Muster: „HERR, ……………, HERR“</li>
-      <li>• Nie in Ich-Form reden. Nur in 3. Person: "Herr, die sklavin ....., Herr"</li>
-    </ul>
-
-    <div class="section-title">SKLAVINNEN-POSITION (STANDARD)</div>
-    
-    <div class="note">
-      Sklavinnen-Position ist die Grundposition!<br>
-      D.h: Sklavin geht immer in diese Position, wenn keine weiteren Anweisungen bestehen
-    </div>
-
-    <div class="position-desc">
-      • AUF KNIEN<br>
-      • KNIE WEIT AUSEINANDER<br>
-      • HÄNDE HINTERM RÜCKEN<br>
-      • RÜCKEN GERADE<br>
-      • KOPF GESENKT (Blick zum Boden)
-    </div>
-
-    <div class="section-title">SKLAVINNEN-POSITION DEVOT (bei Anweisung)</div>
-    <div class="position-desc">
-      • WIE OBEN<br>
-      • KOPF WEIT IN DEN NACKEN<br>
-      • MUND WEIT ÖFFNEN<br>
-      • ZUNGE DEUTLICH RAUSGESTRECKT<br>
-      • BLICK NACH OBEN (sofern nicht anders befohlen)
-    </div>
-
-    <p class="important">
-      NICHTEINHALTUNG = VORSÄTZLICHE PROVOKATION → LEICHTER GERTEEINSATZ ZUR KORREKTUR
-    </p>
-
-    <p style="max-width: 520px; margin: 2.5em auto; font-size: 1.05rem;">
-      Alle Maßnahmen dienen rein der SICHERHEIT der SKLAVIN666 und der SICHEREN, REIBUNGSLOSEN UND INTENSIVEN DURCHFÜHRUNG dieses Shootings!
-    </p>
-
-    <div style="margin: 3.5em 0 1em; font-size: 1.35rem; font-weight: 800; color: #00cc66;">
-      SKLAVIN BESTÄTIGT ALLE REGELN UND ANWEISUNGEN EINZUHALTEN
-    </div>
-
-    <button id="confirmBtn" class="btn" onclick="confirmRules()">BESTÄTIGEN</button>
-    <div id="confirmationMsg" class="confirmation">Bestätigung wurde einmalig versendet.</div>
-
+  <div class="nav">
+    <button onclick="prevPage()">←</button>
+    <button onclick="nextPage()">→</button>
   </div>
-
-  <div class="small">
-    Seite geladen am 25. Februar 2026
-  </div>
-
 </div>
-
 
 <script>
-let hasConfirmed = false;
+  const PASSWORD = "Sklavin666";
+  const FORMSPREE_URL = "https://formspree.io/f/DEINE_FORMSPREE_URL";   // ← HIER DEINE URL EINTRAGEN!
+  
+  let currentPage = 1;
+  const totalPages = 17;
 
-function acceptDisclaimer() {
-  document.getElementById("disclaimerPage").classList.add("hidden");
-  document.getElementById("rulesPage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
+  function checkPassword() {
+    if (document.getElementById("code").value === PASSWORD) {
+      document.getElementById("password-screen").style.display = "none";
+      document.getElementById("comic").style.display = "flex";
+      showPage(1);
+    } else {
+      alert("Falscher Code.");
+    }
+  }
 
-function confirmRules() {
-  if (hasConfirmed) return; // verhindert Mehrfach-Klicks
+  function sendToEmail(type, value) {
+    const data = {
+      _subject: type === "page" ? `Comic Seite ${value} wurde angeklickt` : "Umfrage-Antwort aus Comic",
+      Seite_oder_Antwort: value,
+      Zeit: new Date().toLocaleString('de-DE'),
+      Typ: type
+    };
 
-  hasConfirmed = true;
+    fetch(FORMSPREE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      mode: "no-cors"
+    }).then(() => {
+      if (type === "vote") document.getElementById("status").innerHTML = "✅ E-Mail wurde gesendet!";
+    }).catch(() => {
+      console.log("E-Mail-Versand gestartet (no-cors)");
+    });
+  }
 
-  const btn = document.getElementById("confirmBtn");
-  const msg = document.getElementById("confirmationMsg");
+  function showPage(n) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('survey').style.display = 'none';
 
-  btn.disabled = true;
-  btn.textContent = "BESTÄTIGT";
+    if (n <= totalPages) {
+      document.getElementById(`page${n}`).classList.add('active');
+      document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
+      sendToEmail("page", n);                 // ← jede Seite per E-Mail melden
+    } else {
+      document.getElementById('survey').style.display = 'flex';
+      document.getElementById('counter').innerText = `Ende`;
+    }
+    currentPage = n;
+  }
 
-  msg.style.display = "block";
+  function nextPage() {
+    if (currentPage < totalPages) {
+      showPage(currentPage + 1);
+    } else if (currentPage === totalPages) {
+      showPage(totalPages + 1);
+    }
+  }
 
-  const email = "ihre.email@adresse.de";  // ← Hier deine echte E-Mail-Adresse eintragen!
-  const subject = "REGEL-BESTÄTIGUNG – SKLAVIN666";
-  const body = "Hiermit bestätige ich, SKLAVIN666, dass ich alle Regeln und Anweisungen vollständig verstanden und akzeptiert habe.\n\nDatum: " + new Date().toLocaleString("de-DE");
+  function prevPage() {
+    if (currentPage > 1) showPage(currentPage - 1);
+  }
 
-  const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  function submitVote(rating) {
+    const antworten = [
+      "Ja Herr, ich werde alles so tun!!!!",
+      "Danke, schöne Lektüre!",
+      "NEEEEE"
+    ];
+    sendToEmail("vote", antworten[rating-1]);
+    alert(`Du hast gewählt:\n\n„${antworten[rating-1]}“\n\nE-Mail wurde an dich gesendet 💜`);
+  }
 
-  // Einmaliger Versuch, Mail-Client zu öffnen
-  window.location.href = mailto;
-
-  // Optional: kleine Verzögerung, falls Browser blockt
-  setTimeout(() => {
-    alert("Bestätigung wurde einmalig an den Mail-Client weitergeleitet.\nVielen Dank.");
-  }, 300);
-}
+  // Pfeiltasten
+  document.addEventListener('keydown', e => {
+    if (e.key === "ArrowRight") nextPage();
+    if (e.key === "ArrowLeft") prevPage();
+  });
 </script>
-
 </body>
 </html>
