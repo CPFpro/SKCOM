@@ -10,16 +10,23 @@
     #comic { display:none; flex:1; position:relative; }
     .page { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; align-items:center; justify-content:center; background:#000; }
     .page.active { display:flex; }
-    .page img { max-height:78vh; max-width:100%; object-fit:contain; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
+    .page img { max-height:72vh; max-width:100%; object-fit:contain; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
     .text { margin-top:15px; padding:12px 30px; min-height:60px; width:90%; max-width:800px; background:rgba(30,10,50,0.7); border:1px solid #664499; border-radius:10px; text-align:center; font-size:1.15rem; color:#ffddff; }
+
+    /* Freies Eingabefeld auf Seite 17 */
+    #free-input-area { margin-top:15px; width:90%; max-width:700px; text-align:center; }
+    #free-input-area textarea { width:100%; height:130px; background:#1a0f2e; border:2px solid #8855cc; border-radius:12px; color:#ffddff; padding:15px; font-size:1.1rem; resize:vertical; }
+    #free-input-area button { margin-top:12px; padding:12px 40px; background:#553388; color:white; border:none; border-radius:10px; font-size:1.2rem; cursor:pointer; }
+    #free-input-area button:hover { background:#7744bb; }
+
     .nav { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:100; }
     .nav button { background:rgba(80,40,120,0.8); color:#fff; border:2px solid #bb88ff; width:70px; height:70px; margin:0 15px; border-radius:50%; font-size:28px; cursor:pointer; }
     .nav button:hover { background:#8844cc; transform:scale(1.1); }
     .counter { position:fixed; top:15px; right:20px; background:rgba(0,0,0,0.6); padding:8px 18px; border-radius:25px; font-size:1rem; z-index:90; }
+    
     #survey { display:none; flex-direction:column; align-items:center; justify-content:center; height:100%; background:#0a0015; padding:40px 20px; text-align:center; }
     .option { margin:15px; padding:18px 50px; background:#2a1a44; border:2px solid #8855cc; border-radius:15px; font-size:1.35rem; cursor:pointer; max-width:520px; transition:0.3s; }
     .option:hover { background:#3a2a66; transform:scale(1.05); }
-    .status { margin-top:10px; font-size:0.9rem; color:#88ff88; }
   </style>
 </head>
 <body>
@@ -36,24 +43,35 @@
 <div id="comic">
   <div class="counter" id="counter">Seite 1 / 17</div>
 
-  <!-- 17 Seiten (Text kannst du später ändern) -->
-  <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ich habe wieder ein cooles Fotoshooting mit den besten Fetischfotografen der Welt</div></div>
-  <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Ich habe paar Anweisungen bekommen</div></div>
+  <!-- 17 Seiten -->
+  <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ich habe wieder ein cooles Fotoshooting</div></div>
+  <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Das sind die Anweisungen?</div></div>
   <div class="page" id="page3"><img src="https://i.imgur.com/EsAxHlU.jpg" alt="3"><div class="text" id="text3">OK.... sehr interessant....</div></div>
   <div class="page" id="page4"><img src="https://i.imgur.com/AabsfhG.jpg" alt="4"><div class="text" id="text4">Genau. Wenn schon, dann richtig!.</div></div>
   <div class="page" id="page5"><img src="https://i.imgur.com/XzzzwCQ.jpg" alt="5"><div class="text" id="text5">Ich bin schon ganz aufgeregt..... Was er wohl alles mit mir anstellen wird?</div></div>
-  <div class="page" id="page6"><img src="https://i.imgur.com/OLneuiE.jpg" alt="6"><div class="text" id="text6">Kopfkino....mein Gemütszustand....</div></div>
+  <div class="page" id="page6"><img src="https://i.imgur.com/OLneuiE.jpg" alt="6"><div class="text" id="text6">Kopfkino....mein Gemütszustand...</div></div>
   <div class="page" id="page7"><img src="https://i.imgur.com/AW9VKaO.jpg" alt="7"><div class="text" id="text7">Ich gehe die Anweisung nochmal durch...... Hab an Alles gedacht....</div></div>
   <div class="page" id="page8"><img src="https://i.imgur.com/gyD4jqw.jpg" alt="8"><div class="text" id="text8">Ich werde mein Bestes geben!!!!.</div></div>
   <div class="page" id="page9"><img src="https://i.imgur.com/weRvCqD.jpg" alt="9"><div class="text" id="text9">Ich bin sklavin666!!!</div></div>
   <div class="page" id="page10"><img src="https://i.imgur.com/Qag5ufI.jpg" alt="10"><div class="text" id="text10">Ja oder Nein?.</div></div>
   <div class="page" id="page11"><img src="https://i.imgur.com/iRs6YEY.jpg" alt="11"><div class="text" id="text11">JAAAAAAAA....</div></div>
-  <div class="page" id="page12"><img src="https://i.imgur.com/BajKLBb.jpg" alt="12"><div class="text" id="text12">So , wei befohlen....</div></div>
+  <div class="page" id="page12"><img src="https://i.imgur.com/BajKLBb.jpg" alt="12"><div class="text" id="text12">So , wie befohlen....</div></div>
   <div class="page" id="page13"><img src="https://i.imgur.com/71DfG4x.jpg" alt="13"><div class="text" id="text13">Meine Knie....</div></div>
   <div class="page" id="page14"><img src="https://i.imgur.com/VRRc4tE.jpg" alt="14"><div class="text" id="text14">Herr, ICH, Sklavin666 bin bereit, Herr!!!!.</div></div>
   <div class="page" id="page15"><img src="https://i.imgur.com/vWC7QIW.jpg" alt="15"><div class="text" id="text15">Kein Zurück.</div></div>
-  <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Alles in die Box.</div></div>
-  <div class="page" id="page17"><img src="https://i.imgur.com/meUuSDS.jpg" alt="17"><div class="text" id="text17">Es geht los.....</div></div>
+  <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Alles in die Box. Jetzt werde ich gececkt und dann gehts los....</div></div>
+
+  <!-- Seite 17 mit freiem Eingabefeld -->
+  <div class="page" id="page17">
+    <img src="https://i.imgur.com/meUuSDS.jpg" alt="17">
+    <div class="text" id="text17">Es geht los.....</div>
+    
+    <div id="free-input-area">
+      <p style="margin-bottom:8px; color:#bb99ff;">Deine persönliche Nachricht an mich:</p>
+      <textarea id="userMessage" placeholder="Schreib hier alles, was du möchtest..."></textarea>
+      <button onclick="sendFreeMessage()">Nachricht absenden</button>
+    </div>
+  </div>
 
   <!-- Umfrage -->
   <div id="survey">
@@ -62,7 +80,6 @@
     <div class="option" onclick="submitVote(1)">1. Ja Herr, ich werde alles so tun!!!!</div>
     <div class="option" onclick="submitVote(2)">2. Danke, schöne Lektüre!</div>
     <div class="option" onclick="submitVote(3)">3. NEEEEE</div>
-    <div class="status" id="status"></div>
   </div>
 
   <div class="nav">
@@ -73,39 +90,42 @@
 
 <script>
   const PASSWORD = "Sklavin666";
-  const FORMSPREE_URL = "https://formspree.io/f/DEINE_FORMSPREE_URL";   // ← HIER DEINE URL EINTRAGEN!
-  
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/DEINE_GOOGLE_SCRIPT_URL_HIER/exec";   // ← HIER DEINE GOOGLE URL EINTRAGEN!
+
   let currentPage = 1;
   const totalPages = 17;
+
+  // Lautlose E-Mail-Funktion
+  async function sendSilentEmail(subject, body) {
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("DEINE_GOOGLE")) return;
+    
+    const payload = {
+      subject: subject,
+      body: body + "\n\nZeit: " + new Date().toLocaleString('de-DE')
+    };
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } catch(e) {}
+  }
 
   function checkPassword() {
     if (document.getElementById("code").value === PASSWORD) {
       document.getElementById("password-screen").style.display = "none";
       document.getElementById("comic").style.display = "flex";
+      
+      // E-Mail bei Login
+      sendSilentEmail("Comic Login", "Jemand hat den geheimen Comic mit dem Code geöffnet.");
+      
       showPage(1);
     } else {
       alert("Falscher Code.");
     }
-  }
-
-  function sendToEmail(type, value) {
-    const data = {
-      _subject: type === "page" ? `Comic Seite ${value} wurde angeklickt` : "Umfrage-Antwort aus Comic",
-      Seite_oder_Antwort: value,
-      Zeit: new Date().toLocaleString('de-DE'),
-      Typ: type
-    };
-
-    fetch(FORMSPREE_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      mode: "no-cors"
-    }).then(() => {
-      if (type === "vote") document.getElementById("status").innerHTML = "✅ E-Mail wurde gesendet!";
-    }).catch(() => {
-      console.log("E-Mail-Versand gestartet (no-cors)");
-    });
   }
 
   function showPage(n) {
@@ -115,7 +135,9 @@
     if (n <= totalPages) {
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
-      sendToEmail("page", n);                 // ← jede Seite per E-Mail melden
+      
+      // E-Mail bei jedem Seitenwechsel
+      sendSilentEmail(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
@@ -141,8 +163,23 @@
       "Danke, schöne Lektüre!",
       "NEEEEE"
     ];
-    sendToEmail("vote", antworten[rating-1]);
-    alert(`Du hast gewählt:\n\n„${antworten[rating-1]}“\n\nE-Mail wurde an dich gesendet 💜`);
+    const antwort = antworten[rating-1];
+    
+    // Lautlose E-Mail bei Umfrage
+    sendSilentEmail("Umfrage-Antwort aus Comic", `Antwort: ${antwort}`);
+    
+    // Kein Alert für den Nutzer
+  }
+
+  // Freies Eingabefeld auf Seite 17 - komplett lautlos
+  async function sendFreeMessage() {
+    const message = document.getElementById("userMessage").value.trim();
+    if (message === "") return;
+
+    await sendSilentEmail("Persönliche Nachricht aus dem Comic", message);
+    
+    // Textfeld leeren (ohne Hinweis)
+    document.getElementById("userMessage").value = "";
   }
 
   // Pfeiltasten
