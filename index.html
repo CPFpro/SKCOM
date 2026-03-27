@@ -41,12 +41,23 @@
 <div id="comic">
   <div class="counter" id="counter">Seite 1 / 17</div>
 
-  <!-- Deine 17 Seiten (gekürzt dargestellt) -->
-  <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ich habe wieder ein cooles Fotoshooting mit den besten Fetischfotografen der Welt</div></div>
-  <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Ich habe paar Anweisungen bekommen</div></div>
-  <!-- ... die anderen Seiten 3 bis 16 bleiben gleich wie bei dir ... -->
-  <!-- (Ich habe sie aus Platzgründen gekürzt – kopiere sie einfach aus deiner alten Datei rein) -->
-
+  <!-- Alle 17 Seiten -->
+  <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ich habe wieder ein cooles Fotoshooting</div></div>
+  <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Da sind die Anweisungen gekommen</div></div>
+  <div class="page" id="page3"><img src="https://i.imgur.com/EsAxHlU.jpg" alt="3"><div class="text" id="text3">OK.... sehr interessant....</div></div>
+  <div class="page" id="page4"><img src="https://i.imgur.com/AabsfhG.jpg" alt="4"><div class="text" id="text4">Genau. Wenn schon, dann richtig!.</div></div>
+  <div class="page" id="page5"><img src="https://i.imgur.com/XzzzwCQ.jpg" alt="5"><div class="text" id="text5">Ich bin schon ganz aufgeregt..... Was er wohl alles mit mir anstellen wird?</div></div>
+  <div class="page" id="page6"><img src="https://i.imgur.com/OLneuiE.jpg" alt="6"><div class="text" id="text6">Kopfkino....mein Gemütszustand....</div></div>
+  <div class="page" id="page7"><img src="https://i.imgur.com/AW9VKaO.jpg" alt="7"><div class="text" id="text7">Ich gehe die Anweisung nochmal durch...... Hab an Alles gedacht....</div></div>
+  <div class="page" id="page8"><img src="https://i.imgur.com/gyD4jqw.jpg" alt="8"><div class="text" id="text8">Machen wir das?...... EGAL!!!!...Ich werde mein Bestes geben!!!!.</div></div>
+  <div class="page" id="page9"><img src="https://i.imgur.com/weRvCqD.jpg" alt="9"><div class="text" id="text9">Ich bin sklavin666!!!</div></div>
+  <div class="page" id="page10"><img src="https://i.imgur.com/Qag5ufI.jpg" alt="10"><div class="text" id="text10">Ja oder Nein?.</div></div>
+  <div class="page" id="page11"><img src="https://i.imgur.com/iRs6YEY.jpg" alt="11"><div class="text" id="text11">JAAAAAAAA....</div></div>
+  <div class="page" id="page12"><img src="https://i.imgur.com/BajKLBb.jpg" alt="12"><div class="text" id="text12">So , wie befohlen....</div></div>
+  <div class="page" id="page13"><img src="https://i.imgur.com/71DfG4x.jpg" alt="13"><div class="text" id="text13">Meine Knie....</div></div>
+  <div class="page" id="page14"><img src="https://i.imgur.com/VRRc4tE.jpg" alt="14"><div class="text" id="text14">Herr, ICH, Sklavin666 bin bereit, Herr!!!!.</div></div>
+  <div class="page" id="page15"><img src="https://i.imgur.com/vWC7QIW.jpg" alt="15"><div class="text" id="text15">Kein Zurück.</div></div>
+  <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Alles in die Box. Ich werde gececkt.... Los gehts!</div></div>
   <div class="page" id="page17">
     <img src="https://i.imgur.com/meUuSDS.jpg" alt="17">
     <div class="text" id="text17">Es geht los.....</div>
@@ -57,6 +68,7 @@
     </div>
   </div>
 
+  <!-- Umfrage -->
   <div id="survey">
     <h2>Ende des Comics</h2>
     <p style="margin:20px 0 40px; font-size:1.3rem;">Was sagst du, Sklavin?</p>
@@ -80,25 +92,21 @@
   const totalPages = 17;
 
   async function sendSilent(subject, content) {
-    console.log(`[Web3Forms] Versuche zu senden → Betreff: "${subject}" | Inhalt: "${content.substring(0, 80)}..."`);
-
     const formData = new FormData();
     formData.append("access_key", ACCESS_KEY);
     formData.append("subject", subject);
     formData.append("message", content);
-    formData.append("from_name", "Comic Sklavin666");
+    formData.append("from_name", "Sklavin666 Comic");
 
     try {
-      const response = await fetch(WEB3FORMS_URL, {
+      await fetch(WEB3FORMS_URL, {
         method: "POST",
+        mode: "no-cors",
         body: formData
       });
-      console.log(`[Web3Forms] Status: ${response.status} ${response.statusText}`);
-      if (response.ok) {
-        console.log("[Web3Forms] Anfrage erfolgreich gesendet!");
-      }
-    } catch(e) {
-      console.error("[Web3Forms] Fehler beim Senden:", e);
+      console.log(`[OK] Gesendet: ${subject}`);
+    } catch (e) {
+      console.error("[Fehler] Konnte nicht senden:", e);
     }
   }
 
@@ -118,7 +126,8 @@
     document.getElementById('survey').style.display = 'none';
 
     if (n <= totalPages) {
-      document.getElementById(`page${n}`).classList.add('active');
+      const pageElement = document.getElementById(`page${n}`);
+      if (pageElement) pageElement.classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
       sendSilent(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
     } else {
