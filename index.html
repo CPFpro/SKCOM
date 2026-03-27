@@ -41,6 +41,7 @@
 <div id="comic">
   <div class="counter" id="counter">Seite 1 / 17</div>
 
+  <!-- Seiten 1 bis 16 -->
   <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ich habe wieder ein cooles Fotoshooting</div></div>
   <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Da sind die Anweisungen gekommen</div></div>
   <div class="page" id="page3"><img src="https://i.imgur.com/EsAxHlU.jpg" alt="3"><div class="text" id="text3">OK.... sehr interessant....</div></div>
@@ -57,6 +58,8 @@
   <div class="page" id="page14"><img src="https://i.imgur.com/VRRc4tE.jpg" alt="14"><div class="text" id="text14">Herr, ICH, Sklavin666 bin bereit, Herr!!!!.</div></div>
   <div class="page" id="page15"><img src="https://i.imgur.com/vWC7QIW.jpg" alt="15"><div class="text" id="text15">Kein Zurück....</div></div>
   <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Alles in die Box. Ich werde geprüft....</div></div>
+
+  <!-- Seite 17 – nur Zurück-Button + Eingabefeld -->
   <div class="page" id="page17">
     <img src="https://i.imgur.com/meUuSDS.jpg" alt="17">
     <div class="text" id="text17">Es geht los.....</div>
@@ -67,17 +70,18 @@
     </div>
   </div>
 
+  <!-- Umfrage (erscheint erst nach Absenden der Nachricht) -->
   <div id="survey">
     <h2>Ende des Comics</h2>
     <p style="margin:20px 0 40px; font-size:1.3rem;">Was sagst du, Sklavin?</p>
-    <div class="option" onclick="submitVote(1)">1. Ja Herr, ich werde alles so tun!!!!</div>
+    <div class="option" onclick="submitVote(1)">1. Ja Herr, ich will die Anweisungen und Regeln haben!</div>
     <div class="option" onclick="submitVote(2)">2. Danke, schöne Lektüre!</div>
     <div class="option" onclick="submitVote(3)">3. NEEEEE</div>
   </div>
 
   <div class="nav">
     <button onclick="prevPage()">←</button>
-    <button onclick="nextPage()">→</button>
+    <!-- Kein Weiter-Button auf Seite 17 -->
   </div>
 </div>
 
@@ -99,9 +103,7 @@
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: data.toString()
-    })
-    .then(() => console.log(`Gesendet: ${subject}`))
-    .catch(err => console.error("Sendefehler:", err));
+    }).catch(err => console.error("Sendefehler:", err));
   }
 
   function checkPassword() {
@@ -122,11 +124,6 @@
     if (n <= totalPages) {
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
-      
-      // Nur bei Login, Seite 1 und Seite 17 senden
-      if (n === 1 || n === 17) {
-        sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
-      }
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
@@ -135,8 +132,8 @@
   }
 
   function nextPage() {
+    // Auf Seite 17 gibt es kein automatisches Weiter
     if (currentPage < totalPages) showPage(currentPage + 1);
-    else if (currentPage === totalPages) showPage(totalPages + 1);
   }
 
   function prevPage() {
@@ -145,19 +142,21 @@
 
   function submitVote(rating) {
     const antworten = [
-      "1. Ja Herr, ich werde alles so tun!!!!",
+      "1. Ja Herr, ich will die Anweisungen und Regeln haben!",
       "2. Danke, schöne Lektüre!",
       "3. NEEEEE"
     ];
-    sendToWeb3Forms("Umfrage-Antwort", antworten[rating-1]);
+    sendToWeb3Forms("Umfrage-Antwort aus Comic", antworten[rating-1]);
   }
 
   function sendFreeMessage() {
     const msg = document.getElementById("userMessage").value.trim();
     if (msg === "") return;
+
+    sendToWeb3Forms("Persönliche Nachricht aus Comic (Seite 17)", msg);
     
-    sendToWeb3Forms("Persönliche Nachricht von Seite 17", msg);
-    document.getElementById("userMessage").value = "";
+    // Nach Absenden direkt zur Umfrage springen
+    showPage(totalPages + 1);
   }
 
   document.addEventListener('keydown', e => {
