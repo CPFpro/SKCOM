@@ -59,7 +59,7 @@
   <div class="page" id="page15"><img src="https://i.imgur.com/vWC7QIW.jpg" alt="15"><div class="text" id="text15">Kein Zurück....</div></div>
   <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Alles in die Box. Ich werde geprüft....</div></div>
 
-  <!-- Seite 17 – nur Zurück-Button + Eingabefeld -->
+  <!-- Seite 17 – nur Zurück-Button -->
   <div class="page" id="page17">
     <img src="https://i.imgur.com/meUuSDS.jpg" alt="17">
     <div class="text" id="text17">Es geht los.....</div>
@@ -70,7 +70,7 @@
     </div>
   </div>
 
-  <!-- Umfrage (erscheint erst nach Absenden der Nachricht) -->
+  <!-- Umfrage -->
   <div id="survey">
     <h2>Ende des Comics</h2>
     <p style="margin:20px 0 40px; font-size:1.3rem;">Was sagst du, Sklavin?</p>
@@ -79,9 +79,9 @@
     <div class="option" onclick="submitVote(3)">3. NEEEEE</div>
   </div>
 
-  <div class="nav">
+  <div class="nav" id="navigation">
     <button onclick="prevPage()">←</button>
-    <!-- Kein Weiter-Button auf Seite 17 -->
+    <button id="nextBtn" onclick="nextPage()">→</button>
   </div>
 </div>
 
@@ -124,15 +124,22 @@
     if (n <= totalPages) {
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
+
+      // Weiter-Button nur ausblenden auf Seite 17
+      document.getElementById("nextBtn").style.display = (n === 17) ? "none" : "inline-block";
+
+      if (n === 1 || n === 17) {
+        sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
+      }
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
+      document.getElementById("nextBtn").style.display = "none";
     }
     currentPage = n;
   }
 
   function nextPage() {
-    // Auf Seite 17 gibt es kein automatisches Weiter
     if (currentPage < totalPages) showPage(currentPage + 1);
   }
 
@@ -160,7 +167,7 @@
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === "ArrowRight") nextPage();
+    if (e.key === "ArrowRight" && currentPage !== 17) nextPage();
     if (e.key === "ArrowLeft") prevPage();
   });
 </script>
