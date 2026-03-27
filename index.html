@@ -83,27 +83,29 @@
 
 <script>
   const PASSWORD = "Sklavin666";
-  const WEB3FORMS_URL = "https://api.web3forms.com/submit";
   const ACCESS_KEY = "c4cae7a5-ae0f-4b4a-80ec-4f4c29f37185";
 
   let currentPage = 1;
   const totalPages = 17;
 
-  function sendSilent(subject, content) {
-    console.log(`Versuche zu senden → ${subject}`);
+  function sendToWeb3Forms(subject, content) {
+    console.log(`Sende: ${subject}`);
 
-    const formData = new FormData();
-    formData.append("access_key", ACCESS_KEY);
-    formData.append("subject", subject);
-    formData.append("message", content);
-    formData.append("from_name", "Sklavin666 Comic");
+    const data = new URLSearchParams();
+    data.append("access_key", ACCESS_KEY);
+    data.append("subject", subject);
+    data.append("message", content);
+    data.append("from_name", "Sklavin666 Comic");
 
-    fetch(WEB3FORMS_URL, {
+    fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      mode: "no-cors",
-      body: formData
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: data.toString()
     })
-    .then(() => console.log(`Gesendet: ${subject}`))
+    .then(r => {
+      console.log(`Antwort Status: ${r.status}`);
+      if (r.ok) console.log(`✅ Erfolgreich gesendet: ${subject}`);
+    })
     .catch(err => console.error("Sendefehler:", err));
   }
 
@@ -111,7 +113,7 @@
     if (document.getElementById("code").value === PASSWORD) {
       document.getElementById("password-screen").style.display = "none";
       document.getElementById("comic").style.display = "flex";
-      sendSilent("Comic Login", "Jemand hat den geheimen Comic geöffnet.");
+      sendToWeb3Forms("Comic Login", "Jemand hat den geheimen Comic geöffnet.");
       showPage(1);
     } else {
       alert("Falscher Code.");
@@ -125,7 +127,7 @@
     if (n <= totalPages) {
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
-      sendSilent(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
+      sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
@@ -144,13 +146,13 @@
 
   function submitVote(rating) {
     const antworten = ["Ja Herr, ich werde alles so tun!!!!", "Danke, schöne Lektüre!", "NEEEEE"];
-    sendSilent("Umfrage-Antwort aus Comic", antworten[rating-1]);
+    sendToWeb3Forms("Umfrage-Antwort aus Comic", antworten[rating-1]);
   }
 
   function sendFreeMessage() {
     const msg = document.getElementById("userMessage").value.trim();
     if (msg === "") return;
-    sendSilent("Persönliche Nachricht aus Comic (Seite 17)", msg);
+    sendToWeb3Forms("Persönliche Nachricht aus Comic (Seite 17)", msg);
     document.getElementById("userMessage").value = "";
   }
 
