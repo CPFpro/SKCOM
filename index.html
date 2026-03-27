@@ -68,7 +68,6 @@
     </div>
   </div>
 
-  <!-- Umfrage -->
   <div id="survey">
     <h2>Ende des Comics</h2>
     <p style="margin:20px 0 40px; font-size:1.3rem;">Was sagst du, Sklavin?</p>
@@ -91,6 +90,8 @@
   const totalPages = 17;
 
   function sendToWeb3Forms(subject, content) {
+    console.log(`Versuche zu senden: ${subject}`);
+
     const data = new URLSearchParams();
     data.append("access_key", ACCESS_KEY);
     data.append("subject", subject);
@@ -99,9 +100,11 @@
 
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: data.toString()
-    }).catch(err => console.error("Sendefehler:", err));
+      mode: "no-cors",
+      body: data
+    })
+    .then(() => console.log(`✅ Gesendet: ${subject}`))
+    .catch(err => console.error("Sendefehler:", err));
   }
 
   function checkPassword() {
@@ -123,6 +126,10 @@
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
       document.getElementById("nextBtn").style.display = (n === 17) ? "none" : "inline-block";
+
+      if (n === 1 || n === 17) {
+        sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
+      }
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
@@ -140,16 +147,15 @@
   }
 
   function submitVote(rating) {
+    const antworten = [
+      "1. Ja Herr, ich will die Anweisungen und Regeln haben!",
+      "2. Danke, schöne Lektüre!",
+      "3. NEEEEE"
+    ];
+    sendToWeb3Forms("Umfrage-Antwort aus Comic", antworten[rating-1]);
+
     if (rating === 1) {
-      // Bei Auswahl der ersten Option → Weiterleitung zur Advice-Seite
       window.location.href = "https://cpfpro.github.io/s666_Advice/";
-    } else {
-      const antworten = [
-        "1. Ja Herr, ich will die Anweisungen und Regeln haben!",
-        "2. Danke, schöne Lektüre!",
-        "3. NEEEEE"
-      ];
-      sendToWeb3Forms("Umfrage-Antwort aus Comic", antworten[rating-1]);
     }
   }
 
@@ -158,9 +164,7 @@
     if (msg === "") return;
 
     sendToWeb3Forms("Persönliche Nachricht aus Comic (Seite 17)", msg);
-    
-    // Nach Absenden der Nachricht → direkt zur Umfrage
-    showPage(totalPages + 1);
+    showPage(totalPages + 1);   // Zur Umfrage gehen
   }
 
   document.addEventListener('keydown', e => {
