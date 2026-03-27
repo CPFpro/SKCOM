@@ -89,8 +89,6 @@
   const totalPages = 17;
 
   function sendToWeb3Forms(subject, content) {
-    console.log(`Versuche zu senden: ${subject}`);
-
     const data = new URLSearchParams();
     data.append("access_key", ACCESS_KEY);
     data.append("subject", subject);
@@ -99,22 +97,11 @@
 
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: data.toString()
     })
-    .then(response => {
-      console.log(`Status: ${response.status}`);
-      if (response.ok) {
-        console.log(`✅ Erfolgreich gesendet: ${subject}`);
-      } else {
-        console.log(`❌ Fehler Status: ${response.status}`);
-      }
-    })
-    .catch(err => {
-      console.error("Sendefehler:", err);
-    });
+    .then(() => console.log(`Gesendet: ${subject}`))
+    .catch(err => console.error("Fehler:", err));
   }
 
   function checkPassword() {
@@ -135,7 +122,10 @@
     if (n <= totalPages) {
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
-      sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
+      // Nur bei Seite 1 und Seite 17 senden, um Rate-Limit zu schonen
+      if (n === 1 || n === 17) {
+        sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
+      }
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
