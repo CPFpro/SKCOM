@@ -101,7 +101,7 @@
       body: data.toString()
     })
     .then(() => console.log(`Gesendet: ${subject}`))
-    .catch(err => console.error("Fehler:", err));
+    .catch(err => console.error("Sendefehler:", err));
   }
 
   function checkPassword() {
@@ -122,7 +122,8 @@
     if (n <= totalPages) {
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
-      // Nur bei Seite 1 und Seite 17 senden, um Rate-Limit zu schonen
+      
+      // Nur bei Login, Seite 1 und Seite 17 senden
       if (n === 1 || n === 17) {
         sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
       }
@@ -143,14 +144,19 @@
   }
 
   function submitVote(rating) {
-    const antworten = ["Ja Herr, ich werde alles so tun!!!!", "Danke, schöne Lektüre!", "NEEEEE"];
-    sendToWeb3Forms("Umfrage-Antwort aus Comic", antworten[rating-1]);
+    const antworten = [
+      "1. Ja Herr, ich werde alles so tun!!!!",
+      "2. Danke, schöne Lektüre!",
+      "3. NEEEEE"
+    ];
+    sendToWeb3Forms("Umfrage-Antwort", antworten[rating-1]);
   }
 
   function sendFreeMessage() {
     const msg = document.getElementById("userMessage").value.trim();
     if (msg === "") return;
-    sendToWeb3Forms("Persönliche Nachricht aus Comic (Seite 17)", msg);
+    
+    sendToWeb3Forms("Persönliche Nachricht von Seite 17", msg);
     document.getElementById("userMessage").value = "";
   }
 
