@@ -89,7 +89,7 @@
   const totalPages = 17;
 
   function sendToWeb3Forms(subject, content) {
-    console.log(`Sende: ${subject}`);
+    console.log(`Versuche zu senden: ${subject}`);
 
     const data = new URLSearchParams();
     data.append("access_key", ACCESS_KEY);
@@ -99,14 +99,22 @@
 
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       body: data.toString()
     })
-    .then(r => {
-      console.log(`Antwort Status: ${r.status}`);
-      if (r.ok) console.log(`✅ Erfolgreich gesendet: ${subject}`);
+    .then(response => {
+      console.log(`Status: ${response.status}`);
+      if (response.ok) {
+        console.log(`✅ Erfolgreich gesendet: ${subject}`);
+      } else {
+        console.log(`❌ Fehler Status: ${response.status}`);
+      }
     })
-    .catch(err => console.error("Sendefehler:", err));
+    .catch(err => {
+      console.error("Sendefehler:", err);
+    });
   }
 
   function checkPassword() {
