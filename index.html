@@ -10,12 +10,38 @@
     #comic { display:none; flex:1; position:relative; }
     .page { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; align-items:center; justify-content:center; background:#000; }
     .page.active { display:flex; }
-    .page img { max-height:72vh; max-width:100%; object-fit:contain; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
-    .text { margin-top:15px; padding:12px 30px; min-height:60px; width:90%; max-width:800px; background:rgba(30,10,50,0.7); border:1px solid #664499; border-radius:10px; text-align:center; font-size:1.15rem; color:#ffddff; }
+    .page img { max-height:68vh; max-width:100%; object-fit:contain; box-shadow:0 10px 30px rgba(0,0,0,0.8); }
+    .text { margin-top:10px; padding:12px 30px; min-height:50px; width:90%; max-width:800px; background:rgba(30,10,50,0.7); border:1px solid #664499; border-radius:10px; text-align:center; font-size:1.15rem; color:#ffddff; }
 
-    #free-input-area { margin-top:15px; width:90%; max-width:700px; text-align:center; }
-    #free-input-area textarea { width:100%; height:130px; background:#1a0f2e; border:2px solid #8855cc; border-radius:12px; color:#ffddff; padding:15px; font-size:1.1rem; resize:vertical; }
-    #free-input-area button { margin-top:12px; padding:12px 40px; background:#553388; color:white; border:none; border-radius:10px; font-size:1.2rem; cursor:pointer; }
+    /* Verbessertes Layout für Seite 17 */
+    #page17 .text { margin-top: 8px; margin-bottom: 8px; }
+    #free-input-area { 
+      margin-top: 10px; 
+      width: 90%; 
+      max-width: 720px; 
+      text-align:center; 
+    }
+    #free-input-area textarea { 
+      width: 100%; 
+      height: 110px; 
+      background:#1a0f2e; 
+      border:2px solid #8855cc; 
+      border-radius:12px; 
+      color:#ffddff; 
+      padding:15px; 
+      font-size:1.1rem; 
+      resize:vertical; 
+    }
+    #free-input-area button { 
+      margin-top: 12px; 
+      padding:14px 50px; 
+      background:#553388; 
+      color:white; 
+      border:none; 
+      border-radius:10px; 
+      font-size:1.25rem; 
+      cursor:pointer; 
+    }
     #free-input-area button:hover { background:#7744bb; }
 
     .nav { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:100; }
@@ -41,6 +67,7 @@
 <div id="comic">
   <div class="counter" id="counter">Seite 1 / 17</div>
 
+  <!-- Deine 17 Seiten -->
   <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ich habe wieder ein cooles Fotoshooting</div></div>
   <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Da sind die Anweisungen gekommen</div></div>
   <div class="page" id="page3"><img src="https://i.imgur.com/EsAxHlU.jpg" alt="3"><div class="text" id="text3">OK.... sehr interessant....</div></div>
@@ -58,6 +85,7 @@
   <div class="page" id="page15"><img src="https://i.imgur.com/vWC7QIW.jpg" alt="15"><div class="text" id="text15">Kein Zurück....</div></div>
   <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Alles in die Box. Ich werde geprüft....</div></div>
 
+  <!-- Seite 17 mit verbessertem Layout -->
   <div class="page" id="page17">
     <img src="https://i.imgur.com/meUuSDS.jpg" alt="17">
     <div class="text" id="text17">Es geht los.....</div>
@@ -90,8 +118,6 @@
   const totalPages = 17;
 
   function sendToWeb3Forms(subject, content) {
-    console.log(`Versuche zu senden: ${subject}`);
-
     const data = new URLSearchParams();
     data.append("access_key", ACCESS_KEY);
     data.append("subject", subject);
@@ -100,11 +126,9 @@
 
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      mode: "no-cors",
-      body: data
-    })
-    .then(() => console.log(`✅ Gesendet: ${subject}`))
-    .catch(err => console.error("Sendefehler:", err));
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: data.toString()
+    }).catch(err => console.error("Sendefehler:", err));
   }
 
   function checkPassword() {
@@ -126,10 +150,6 @@
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
       document.getElementById("nextBtn").style.display = (n === 17) ? "none" : "inline-block";
-
-      if (n === 1 || n === 17) {
-        sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
-      }
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
@@ -164,7 +184,7 @@
     if (msg === "") return;
 
     sendToWeb3Forms("Persönliche Nachricht aus Comic (Seite 17)", msg);
-    showPage(totalPages + 1);   // Zur Umfrage gehen
+    showPage(totalPages + 1);   // Zur Umfrage
   }
 
   document.addEventListener('keydown', e => {
