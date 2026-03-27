@@ -41,7 +41,6 @@
 <div id="comic">
   <div class="counter" id="counter">Seite 1 / 17</div>
 
-  <!-- Seiten 1 bis 16 -->
   <div class="page active" id="page1"><img src="https://i.imgur.com/G2ixd3A.jpg" alt="1"><div class="text" id="text1">Ich habe wieder ein cooles Fotoshooting</div></div>
   <div class="page" id="page2"><img src="https://i.imgur.com/Krc6dLV.jpg" alt="2"><div class="text" id="text2">Da sind die Anweisungen gekommen</div></div>
   <div class="page" id="page3"><img src="https://i.imgur.com/EsAxHlU.jpg" alt="3"><div class="text" id="text3">OK.... sehr interessant....</div></div>
@@ -59,7 +58,6 @@
   <div class="page" id="page15"><img src="https://i.imgur.com/vWC7QIW.jpg" alt="15"><div class="text" id="text15">Kein Zurück....</div></div>
   <div class="page" id="page16"><img src="https://i.imgur.com/lwSMEj9.jpg" alt="16"><div class="text" id="text16">Alles in die Box. Ich werde geprüft....</div></div>
 
-  <!-- Seite 17 – nur Zurück-Button -->
   <div class="page" id="page17">
     <img src="https://i.imgur.com/meUuSDS.jpg" alt="17">
     <div class="text" id="text17">Es geht los.....</div>
@@ -79,7 +77,7 @@
     <div class="option" onclick="submitVote(3)">3. NEEEEE</div>
   </div>
 
-  <div class="nav" id="navigation">
+  <div class="nav">
     <button onclick="prevPage()">←</button>
     <button id="nextBtn" onclick="nextPage()">→</button>
   </div>
@@ -124,13 +122,7 @@
     if (n <= totalPages) {
       document.getElementById(`page${n}`).classList.add('active');
       document.getElementById('counter').innerText = `Seite ${n} / ${totalPages}`;
-
-      // Weiter-Button nur ausblenden auf Seite 17
       document.getElementById("nextBtn").style.display = (n === 17) ? "none" : "inline-block";
-
-      if (n === 1 || n === 17) {
-        sendToWeb3Forms(`Comic Seite ${n}`, `Seite ${n} wurde aufgerufen.`);
-      }
     } else {
       document.getElementById('survey').style.display = 'flex';
       document.getElementById('counter').innerText = `Ende`;
@@ -148,12 +140,17 @@
   }
 
   function submitVote(rating) {
-    const antworten = [
-      "1. Ja Herr, ich will die Anweisungen und Regeln haben!",
-      "2. Danke, schöne Lektüre!",
-      "3. NEEEEE"
-    ];
-    sendToWeb3Forms("Umfrage-Antwort aus Comic", antworten[rating-1]);
+    if (rating === 1) {
+      // Bei Auswahl der ersten Option → Weiterleitung zur Advice-Seite
+      window.location.href = "https://cpfpro.github.io/s666_Advice/";
+    } else {
+      const antworten = [
+        "1. Ja Herr, ich will die Anweisungen und Regeln haben!",
+        "2. Danke, schöne Lektüre!",
+        "3. NEEEEE"
+      ];
+      sendToWeb3Forms("Umfrage-Antwort aus Comic", antworten[rating-1]);
+    }
   }
 
   function sendFreeMessage() {
@@ -162,7 +159,7 @@
 
     sendToWeb3Forms("Persönliche Nachricht aus Comic (Seite 17)", msg);
     
-    // Nach Absenden direkt zur Umfrage springen
+    // Nach Absenden der Nachricht → direkt zur Umfrage
     showPage(totalPages + 1);
   }
 
